@@ -1,9 +1,8 @@
 <script context="module" lang="ts">
-  import key from './key'
   /**
    * Use this to get the AccordionGroup context.
    */
-  export const contextKey = key('Accordion')
+  export const contextKey = {}
 
   /**
    * Function that closes an accordion.
