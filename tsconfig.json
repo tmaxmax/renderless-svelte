@@ -8,5 +8,5 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": true
   },
-  "include": ["src/**/*.svelte", "src/**/*.ts"]
+  "include": ["src/**/*"]
 }
