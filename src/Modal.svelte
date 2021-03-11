@@ -4,11 +4,11 @@
   /**
    * The current state of the modal.
    */
-  let open = writable(false)
+  const open = writable(false)
   /**
    * The current data in the modal.
    */
-  let payload = writable<any>(undefined)
+  const payload = writable<any>(undefined)
 
   let resolveClose: (value: any) => void
 
@@ -16,8 +16,10 @@
    * Opens the modal with the given data.
    *
    * @param data
+   * @returns A promise that is resolved when the modal is closed.
+   * It holds the provided data.
    */
-  export function openModal<T>(data: T) {
+  export function openModal<T>(data: T): Promise<T> {
     open.set(true)
     payload.set(data)
     return new Promise<T>(resolve => {
@@ -28,7 +30,7 @@
   /**
    * Closes the modal.
    */
-  export const closeModal = () => {
+  export function closeModal() {
     if (get(open)) {
       open.set(false)
       resolveClose(get(payload))
