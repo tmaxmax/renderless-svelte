@@ -27,7 +27,7 @@
   import { setContext } from 'svelte'
   import { writable } from 'svelte/store'
 
-  let closer = writable<Closer | undefined>(undefined)
+  const closer = writable<Closer | undefined>(undefined)
 
   setContext<Context>(contextKey, {
     setAccordion(fn) {
