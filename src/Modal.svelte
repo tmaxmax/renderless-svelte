@@ -1,27 +1,41 @@
-<script context="module">
-    import { get, writable } from 'svelte/store'
+<script context="module" lang="ts">
+  import { get, writable } from 'svelte/store'
 
-    let _open = writable(false)
-    let _payload = writable({})
+  /**
+   * The current state of the modal.
+   */
+  let open = writable(false)
+  /**
+   * The current data in the modal.
+   */
+  let payload = writable<any>(undefined)
 
-    let _closePromise
+  let resolveClose: (value: any) => void
 
-    export const openModal = payload => {
-        _open.set(true)
-        _payload.set(payload)
-        return new Promise(resolve => { _closePromise = resolve })
+  /**
+   * Opens the modal with the given data.
+   *
+   * @param data
+   */
+  export function openModal<T>(data: T) {
+    open.set(true)
+    payload.set(data)
+    return new Promise<T>(resolve => {
+      resolveClose = resolve
+    })
+  }
+
+  /**
+   * Closes the modal.
+   */
+  export const closeModal = () => {
+    if (get(open)) {
+      open.set(false)
+      resolveClose(get(payload))
     }
-
-    export const closeModal = () => {
-        _open.set(false)
-        if (typeof _closePromise === 'function') {
-            _closePromise(get(_payload))
-        }
-    }
+  }
 </script>
 
-<script></script>
-
-{#if $_open}
-    <slot payload={$_payload} close={closeModal}></slot>
+{#if $open}
+  <slot payload={$payload} close={closeModal} />
 {/if}
