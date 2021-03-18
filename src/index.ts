@@ -7,7 +7,13 @@ import TabControl from './TabControl.svelte'
 import TabControlItem from './TabControlItem.svelte'
 import Tooltip, { tooltip } from './Tooltip.svelte'
 
+/**
+ * @deprecated Use `Accordion` instead.
+ */
 const Accordeon = Accordion
+/**
+ * @deprecated Use `AccordionGroup` instead.
+ */
 const AccordeonGroup = AccordionGroup
 
 export {
