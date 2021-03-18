@@ -1,63 +1,79 @@
-<script context="module">
-	import { writable } from 'svelte/store'
-	let options = writable(false)
-	let dimensions = writable({})
+<script context="module" lang="ts">
+  import { writable } from 'svelte/store'
+  import { event } from './util'
 
-	export const tooltip = (node, opts) => {
-		let _opts = opts
+  const optionsStore = writable<any>(undefined)
+  const dimensionsStore = writable<DOMRectReadOnly | undefined>(undefined)
 
-		const mouseover = () => {
-			document.addEventListener('scroll', scroll)
+  const callback: IntersectionObserverCallback = entries => {
+    const [entry] = entries
+    dimensionsStore.set(entry.boundingClientRect)
+  }
 
-			options.set(_opts)
-			let dim = node.getBoundingClientRect()
+  let observer: IntersectionObserver
 
-			dimensions.set({
-				x: dim.x,
-				y: dim.y,
-				width: dim.width,
-				height: dim.height,
-				bottom: dim.bottom,
-				left: dim.bottom,
-				right: dim.right,
-				top: dim.top,
-			})
-		}
+  /**
+   * An action used to associate a tooltip with a given element.
+   * Use the `opts` parameter to pass additional data for the
+   * tooltip, or else make it `null`.
+   *
+   * @param element The element to associate the tooltip with.
+   * @param opts Additional data for the tooltip. Shall not be
+   * `undefined`!
+   */
+  export const tooltip = (element: HTMLElement, opts: any) => {
+    let currentOptions = opts
+    let running = true
 
-		const mouseout = () => {
-			document.addEventListener('scroll', scroll)
+    async function handler() {
+      while (running) {
+        await event(element, 'mouseover')
+        observer.observe(element)
+        optionsStore.set(currentOptions)
+        await event(element, 'mouseout')
+        observer.unobserve(element)
+        optionsStore.set(undefined)
+      }
+    }
 
-			options.set(false)
-		}
+    handler()
 
-		const scroll = (ev) => {
-			let dim = node.getBoundingClientRect()
-
-			dimensions.set({
-				x: dim.x,
-				y: dim.y,
-				width: dim.width,
-				height: dim.height,
-				bottom: dim.bottom + window.scrollY,
-				left: dim.bottom + window.scrollX,
-				right: dim.right + window.scrollX,
-				top: dim.top + window.scrollX,
-			})
-		}
-
-		node.addEventListener('mouseover', mouseover)
-		node.addEventListener('mouseout', mouseout)
-
-		return {
-			destroy() {
-				node.removeEventListener('mouseover', mouseover)
-				node.removeEventListener('mouseout', mouseout)
-			},
-			update(opts) {
-				_opts = opts
-			}
-		}
-	}
+    return {
+      destroy() {
+        running = false
+      },
+      update(opts: any) {
+        currentOptions = opts
+      },
+    }
+  }
 </script>
 
-<slot options={$options} dimensions={$dimensions}></slot>
+<script lang="ts">
+  import { onMount } from 'svelte'
+  import { generateIOThreshold } from './util'
+
+  /**
+   * The rectangle of the element that triggers the tooltip.
+   */
+  export let dimensions: DOMRectReadOnly | undefined
+  /**
+   * Data used to display the tooltip.
+   */
+  export let options
+
+  onMount(() => {
+    observer ??= new IntersectionObserver(callback, {
+      root: null,
+      rootMargin: '0px',
+      threshold: generateIOThreshold(500),
+    })
+
+    return () => observer.disconnect()
+  })
+
+  $: dimensions = $dimensionsStore
+  $: options = $optionsStore
+</script>
+
+<slot />
