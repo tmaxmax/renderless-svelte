@@ -25,17 +25,16 @@
 
 <script lang="ts">
   import { setContext } from 'svelte'
-  import { writable } from 'svelte/store'
 
-  const closer = writable<Closer | undefined>(undefined)
+  let closer: Closer
 
   setContext<Context>(contextKey, {
     setAccordion(fn) {
-      if ($closer === fn) {
+      if (closer === fn) {
         return
       }
-      $closer?.()
-      $closer = fn
+      closer?.()
+      closer = fn
     },
   })
 </script>
