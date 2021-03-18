@@ -11,39 +11,38 @@ const Accordeon = Accordion
 const AccordeonGroup = AccordionGroup
 
 export {
-    Accordion,
-    AccordionGroup,
-    Carousel,
-    closeModal,
-    Modal,
-    Notification,
-    notifications,
-    openModal,
-    TabControl,
-    TabControlItem,
-    Tooltip,
-    tooltip,
-    
-    /* Deprecated */
-    Accordeon,
-    AccordeonGroup
+  Accordion,
+  AccordionGroup,
+  Carousel,
+  closeModal,
+  Modal,
+  Notification,
+  notifications,
+  openModal,
+  TabControl,
+  TabControlItem,
+  Tooltip,
+  tooltip,
+  /* Deprecated */
+  Accordeon,
+  AccordeonGroup,
 }
 
 export const Renderless = {
-    Accordion,
-    AccordionGroup,
-    Carousel,
-    closeModal,
-    Modal,
-    Notification,
-    notifications,
-    openModal,
-    TabControl,
-    TabControlItem,
-    Tooltip,
-    tooltip,
-    
-    /* Deprecated */
-    Accordeon,
-    AccordeonGroup
+  Accordion,
+  AccordionGroup,
+  Carousel,
+  closeModal,
+  Modal,
+  Notification,
+  notifications,
+  openModal,
+  TabControl,
+  TabControlItem,
+  Tooltip,
+  tooltip,
+
+  /* Deprecated */
+  Accordeon,
+  AccordeonGroup,
 }
