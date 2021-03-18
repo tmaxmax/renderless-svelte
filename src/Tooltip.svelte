@@ -66,7 +66,7 @@
     observer ??= new IntersectionObserver(callback, {
       root: null,
       rootMargin: '0px',
-      threshold: generateIOThreshold(500),
+      threshold: generateIOThreshold(800),
     })
 
     return () => observer.disconnect()
