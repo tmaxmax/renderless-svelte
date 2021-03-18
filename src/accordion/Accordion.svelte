@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { contextKey } from './AccordionGroup.svelte'
-  import type { Context } from './AccordionGroup.svelte'
+  import { contextKey } from './Group.svelte'
+  import type { Context } from './Group.svelte'
 
   import { getContext } from 'svelte'
 

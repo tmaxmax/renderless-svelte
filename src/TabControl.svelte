@@ -1,17 +1,26 @@
-<script>
-	import { setContext } from 'svelte'
-	import { writable } from 'svelte/store'
-		
-	export let tabs
-	
-	const _tabs = writable([])
-	export const setTab = id => _tabs.update(arr => arr.map(t => ({ ...t, active: t.id == id })))
-	
-	_tabs.subscribe(t => tabs = t)
-	
-	setContext('tabcontrols_tabs', { _tabs, setTab })
+<script context="module" lang="ts">
+  export const contextKey = {}
 
+  export interface Context {}
 </script>
 
-<slot name="tabs" {tabs}></slot>
-<slot></slot>
+<script lang="ts">
+  import { setContext } from 'svelte'
+  import { writable } from 'svelte/store'
+  import type { TabControlItem } from './TabControlItem.svelte'
+
+  export let tabs: TabControlItem[]
+
+  const store = writable([])
+
+  function setTab(id: any) {
+    $store = $store.map(t => ({ ...t, active: t.id == id }))
+  }
+
+  $: tabs = $store
+
+  setContext<Context>(contextKey, {})
+</script>
+
+<slot name="tabs" {tabs} />
+<slot />

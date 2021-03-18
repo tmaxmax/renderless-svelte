@@ -1,17 +1,5 @@
-<script context="module" lang="ts">
-  export interface CarouselControls {
-    /**
-     * Advances the carousel to the next item.
-     */
-    next(): void
-    /**
-     * Iterates the carousel back to the previos item.
-     */
-    previous(): void
-  }
-</script>
-
 <script lang="ts">
+  import type { CarouselControls } from './types'
   /**
    * The items to create the carousel with.
    */
