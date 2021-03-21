@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
-  import { writable } from 'svelte/store'
   import type { Readable } from 'svelte/store'
+  import { readonlyWritable } from './util'
 
   /**
    * Custom Svelte Reader interface for the notifications store.
@@ -19,47 +19,15 @@
   }
 
   function createStore(): Notifications {
-    // To implement the read-only property of the notifications store,
-    // we are lazily caching a copy of the actual queue on subscribe,
-    // if the queue was mutated.
-    type Cache = readonly any[] | null
-    const { update, subscribe } = writable<Cache>(null)
-    let queue: any[] = []
-    /**
-     * Clones the queue into the cache store
-     * if it was modified and returns it.
-     *
-     * @param cache The old cache.
-     * @returns The new, valid cache.
-     */
-    const clone = (cache: Cache) => {
-      if (!cache) {
-        const copy = Object.freeze(queue.slice())
-        update(() => copy)
-        return copy
-      }
-      return cache
-    }
-    /**
-     * Invalidates the current cache
-     */
-    const invalidate = () => {
-      update(() => null)
-    }
+    const { update, subscribe } = readonlyWritable<any[]>([])
 
     return {
-      subscribe(run) {
-        return subscribe(cache => {
-          run(clone(cache))
-        })
-      },
+      subscribe,
       pop() {
-        queue.shift()
-        invalidate()
+        update(queue => (queue.shift(), queue))
       },
       push(payload) {
-        queue.push(payload)
-        invalidate()
+        update(queue => (queue.push(payload), queue))
       },
     }
   }
