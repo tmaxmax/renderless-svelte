@@ -1,6 +1,7 @@
 <script context="module" lang="ts">
   import { writable } from 'svelte/store'
   import { event } from './util'
+  import type { Defined } from './util'
 
   const optionsStore = writable<any>(undefined)
   const dimensionsStore = writable<DOMRectReadOnly | undefined>(undefined)
@@ -21,7 +22,7 @@
    * @param opts Additional data for the tooltip. Shall not be
    * `undefined`!
    */
-  export const tooltip = (element: HTMLElement, opts: any) => {
+  export function tooltip<T>(element: HTMLElement, opts: Defined<T>) {
     let currentOptions = opts
     let running = true
 
@@ -42,7 +43,7 @@
       destroy() {
         running = false
       },
-      update(opts: any) {
+      update(opts: Defined<T>) {
         currentOptions = opts
       },
     }
