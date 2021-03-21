@@ -6,7 +6,9 @@
     "strictFunctionTypes": true,
     "strictBindCallApply": true,
     "strictNullChecks": true,
-    "strictPropertyInitialization": true
+    "strictPropertyInitialization": true,
+    "declaration": true,
+    "declarationDir": "dist"
   },
   "include": ["src/**/*"]
 }
