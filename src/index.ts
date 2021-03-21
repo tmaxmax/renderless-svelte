@@ -1,54 +1,8 @@
-import Accordion from './Accordion.svelte'
-import AccordionGroup from './AccordionGroup.svelte'
-import Carousel from './Carousel.svelte'
-import Notification, { notifications } from './Notifications.svelte'
-import Modal, { closeModal, openModal } from './Modal.svelte'
-import TabControl from './TabControl.svelte'
-import TabControlItem from './TabControlItem.svelte'
-import Tooltip, { tooltip } from './Tooltip.svelte'
-
-/**
- * @deprecated Use `Accordion` instead.
- */
-const Accordeon = Accordion
-/**
- * @deprecated Use `AccordionGroup` instead.
- */
-const AccordeonGroup = AccordionGroup
-
-export {
-  Accordion,
-  AccordionGroup,
-  Carousel,
-  closeModal,
-  Modal,
-  Notification,
-  notifications,
-  openModal,
-  TabControl,
-  TabControlItem,
-  Tooltip,
-  tooltip,
-  /* Deprecated */
-  Accordeon,
-  AccordeonGroup,
-}
-
-export const Renderless = {
-  Accordion,
-  AccordionGroup,
-  Carousel,
-  closeModal,
-  Modal,
-  Notification,
-  notifications,
-  openModal,
-  TabControl,
-  TabControlItem,
-  Tooltip,
-  tooltip,
-
-  /* Deprecated */
-  Accordeon,
-  AccordeonGroup,
-}
+export { default as Accordion } from './Accordion.svelte'
+export { default as AccordionGroup } from './AccordionGroup.svelte'
+export { default as Carousel, CarouselControls } from './Carousel.svelte'
+export { default as Notification, notifications } from './Notifications.svelte'
+export { default as Modal, closeModal, openModal } from './Modal.svelte'
+export { default as TabControl } from './TabControl.svelte'
+export { default as TabControlItem } from './TabControlItem.svelte'
+export { default as Tooltip, tooltip } from './Tooltip.svelte'
